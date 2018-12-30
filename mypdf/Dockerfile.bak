@@ -1,0 +1,15 @@
+FROM tk0miya/sphinx-base-pdf:latest
+MAINTAINER Sphinx Team <https://github.com/sphinx-doc/sphinx>
+
+RUN apt-get update && apt-get install -y \
+      texlive-lang-chinese \
+      texlive-full
+
+RUN mkdir -p ~/.fonts
+# ADD fonts ~/.fonts
+ADD ./fonts /usr/local/share/fonts
+RUN bash -c "cd ~/.fonts/ && fc-cache -f -v"
+RUN fc-list :lang=zh
+RUN ls ~/.fonts/
+WORKDIR /docs
+# CMD make xelatexpdf
